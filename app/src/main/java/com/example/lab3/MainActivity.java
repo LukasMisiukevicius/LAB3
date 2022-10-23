@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView tvCalc, tvResult;
@@ -67,8 +69,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(dataToCalculate.contains("√"))
             {
                 String first[] = dataToCalculate.split("√");
+                double resultNum = Math.pow(Double.parseDouble(first[0]),1.0/2);
 
-                tvResult.setText(String.valueOf(Math.pow(Double.parseDouble(first[0]),1.0/2)));
+                resultNum = Double.parseDouble(new DecimalFormat("##.########").format(resultNum));
+                tvResult.setText(String.valueOf(resultNum));
 
             }else{
                 tvCalc.setText(tvResult.getText().toString());
@@ -78,10 +82,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(buttonText.equals("←"))
         {
             dataToCalculate = dataToCalculate.substring(0,dataToCalculate.length()-1);
-        }else
-        {
+        }else if(buttonText.equals("±")) {
+            if(dataToCalculate.charAt(0) == '-')
+            {
+                dataToCalculate = dataToCalculate.substring(1);
+            }
+            else
+            {
+                dataToCalculate = "-" + dataToCalculate;
+            }
+
+        }else{
             dataToCalculate = dataToCalculate+buttonText;
         }
+
+
 
         tvCalc.setText(dataToCalculate);
 
@@ -101,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String finalResult = context.evaluateString(scriptable, data, "Javascript", 1, null).toString();
             if(finalResult.endsWith(".0")){
                 finalResult = finalResult.replace(".0","");
+            }
+            else
+            {
+                double value = Double.parseDouble(finalResult);
+                value = Double.parseDouble(new DecimalFormat("##.########").format(value));
+                finalResult = String.valueOf((value));
             }
             return finalResult;
         }catch (Exception e){
