@@ -27,9 +27,9 @@
         android:layout_weight="2"
         android:textAlignment="viewEnd"
         android:gravity="bottom"
-
+        android:text="0"
         android:background="#F0F6FC"
-        android:textSize="30sp"/>
+        android:textSize="40sp"/>
 
 
     <LinearLayout
