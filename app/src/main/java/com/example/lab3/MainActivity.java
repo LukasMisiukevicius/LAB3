@@ -52,8 +52,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn.setOnClickListener(this);
     }
 
+
+
     @Override
     public void onClick(View view) {
+        MathOperations mo = new MathOperations();
         Button button = (Button) view;
         String buttonText = button.getText().toString();
         String dataToCalculate = tvCalc.getText().toString();
@@ -68,11 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             if(dataToCalculate.contains("√"))
             {
-                String first[] = dataToCalculate.split("√");
-                double resultNum = Math.pow(Double.parseDouble(first[0]),1.0/2);
-
-                resultNum = Double.parseDouble(new DecimalFormat("##.########").format(resultNum));
-                tvResult.setText(String.valueOf(resultNum));
+                tvResult.setText(String.valueOf(mo.sqrRoot(dataToCalculate)));
 
             }else{
                 tvCalc.setText(tvResult.getText().toString());
@@ -83,14 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             dataToCalculate = dataToCalculate.substring(0,dataToCalculate.length()-1);
         }else if(buttonText.equals("±")) {
-            if(dataToCalculate.charAt(0) == '-')
-            {
-                dataToCalculate = dataToCalculate.substring(1);
-            }
-            else
-            {
-                dataToCalculate = "-" + dataToCalculate;
-            }
+
+            dataToCalculate = mo.changeSign(dataToCalculate);
 
         }else{
             dataToCalculate = dataToCalculate+buttonText;
